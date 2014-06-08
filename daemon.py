@@ -155,7 +155,7 @@ class InputTweet:
 		if not self.user_card.hasCard():
 			if self.isDirectlyAtUs():
 				self.user_card.createCard()
-				self.sendReply("Welcome to MBTA Bingo!")
+				self.sendReply("Welcome to the game!")
 			else:
 				pass # ignore
 		elif self.getPic() is None:
@@ -175,12 +175,12 @@ class InputTweet:
 			if had_bingo:
 				if self.user_card.hasBlackout():
 					self.sendReply("You filled your card! What a champion.")
-					self.sendPublic("Wow! @%s just filled their MBTA bingo card!"(self.getScreenName(),tagged_goal))
+					self.sendPublic("Wow! @%s just filled their bingo card!"(self.getScreenName(),tagged_goal))
 				else:
 					self.sendReply("Nice #%s! Why not try these suggestions TK?"%tagged_goal)
 			elif self.user_card.hasBingo():
 				self.sendReply("Congratulations, that's Bingo! You're welcome to keep going...")
-				self.sendPublic("BINGO! @%s just spotted #%s to win MBTA bingo."(self.getScreenName(),tagged_goal))
+				self.sendPublic("BINGO! @%s just spotted #%s to win bingo."(self.getScreenName(),tagged_goal))
 			else:
 				self.sendReply("Nice #%s! Why not try these suggestions TK?"%tagged_goal)
 
@@ -194,13 +194,13 @@ class InputTweet:
 
 	def mentionsUs(self):
 		for m in t['entities']['user_mentions']:
-			if m['screen_name'] == "mbtabingo":
+			if m['screen_name'] == config['twitter']['screen_name']:
 				return True
 		return False
 
 	def isDirectlyAtUs(self):
 		for m in t['entities']['user_mentions']:
-			if m['indices'][0]==0 and m['screen_name'] == "mbtabingo":
+			if m['indices'][0]==0 and m['screen_name'] == config['twitter']['screen_name']:
 				return True
 		return False
 
@@ -235,7 +235,7 @@ class InputTweet:
 
 	def sendReply(self,message):
 		img_data = self.user_card.renderCard()
-		status = ("@%s %s Your card:" % (self.getScreenName(),message)).encode('ascii','ignore')
+		status = ("@%s %s Your card: %s http://107.170.82.222:5000/card/%s " % (self.getScreenName(),message,self.getScreenName())).encode('ascii','ignore')
 		status = status.encode('ascii','ignore')
 		id_str = self.t['id_str'].encode('ascii','ignore')
 		print status, id_str
