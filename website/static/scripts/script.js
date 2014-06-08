@@ -23,8 +23,20 @@ $(document) .ready (function()
 		{	
 		$('#holder') .fadeOut (100);
 		});
-	
-	
-	
-	
+
 	});
+	
+	$('#instruct') .click (function ()
+		{	
+		$('#body') .addClass ('no_scroll');
+		$('#instruct_overlay') .fadeIn (100);
+		console.log('over');
+		
+		});
+
+	
+	$('#close_ins') .click (function ()
+		{	
+		$('#body') .removeClass ('no_scroll');
+		$('#instruct_overlay') .fadeOut (100);	
+		});
