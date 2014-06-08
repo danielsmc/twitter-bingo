@@ -69,7 +69,7 @@ ul li {
   right: 0;
   background-image: url("../siteart/lightpaperfibers_@2X.png");
   background-size: 300px 500px;
-  box-shadow: 3px 3px 3px #999;
+  box-shadow: 2px 2px 2px rgba(102, 102, 102, 0.6);
   border: 1px solid white;
   border-radius: 3px; }
   #holder .close_box {
@@ -350,14 +350,12 @@ leaderboard page
       width: 62.5%;
       margin-right: 0%;
       box-sizing: border-box;
-      float: left;
-      height: 1000px; } }
+      float: left; } }
 
 .left_side {
   width: 100%;
   margin-right: 0%;
   box-sizing: border-box;
-  height: 1000px;
   border-right: 1px solid #d0d0d0; }
   @media screen and (min-width: 31.25em) {
     .left_side {
@@ -414,7 +412,8 @@ leaderboard page
   margin-right: 0%;
   box-sizing: border-box;
   margin: 0px;
-  padding: 0px; }
+  padding: 0px;
+  margin-bottom: 15px; }
   .latest_items li {
     width: 49.19614%;
     margin-right: 1.60772%;
@@ -467,9 +466,10 @@ leaderboard page
     height: 100%;
     text-align: center;
     position: relative;
-    overflow: hidden; }
+    overflow: hidden;
+    margin-bottom: 8px; }
     .latest_items .tweeted_image img {
-      height: 100%;
+      width: 100%;
       position: absolute;
       margin: auto;
       top: 0;
@@ -515,8 +515,10 @@ leaderboard page
   padding: 20px 20px 5px;
   background-image: url("../siteart/lightpaperfibers_@2X.png");
   background-size: 300px 500px;
-  box-shadow: 3px 3px 4px #d0d0d0;
-  max-width: 500px; }
+  box-shadow: 2px 2px 2px rgba(102, 102, 102, 0.6);
+  max-width: 500px;
+  border-radius: 3px;
+  border: 1px solid white; }
   .instructions li {
     margin: 0 0 15px 0; }
     .instructions li .hider {
@@ -540,3 +542,41 @@ leaderboard page
     @media screen and (min-width: 28.125em) {
       .instructions h2 {
         font-size: 1.25em; } }
+
+.header {
+  width: 100%;
+  max-width: 1000px;
+  clear: both;
+  border: 1px solid white;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #d0d0d0; }
+  .header .logo {
+    width: 50px;
+    height: 50px;
+    float: left;
+    background-image: url("../siteart/tstamp.png");
+    background-size: 100%;
+    margin: 0 8px 0 0; }
+    @media screen and (min-width: 34.375em) {
+      .header .logo {
+        width: 60px;
+        height: 60px; } }
+    @media screen and (min-width: 50em) {
+      .header .logo {
+        width: 80px;
+        height: 80px; } }
+
+.sitename {
+  font-size: 2.25em;
+  font-weight: 300;
+  margin: 3px 0; }
+  .sitename span {
+    color: #D7533C;
+    font-weight: 400; }
+  @media screen and (min-width: 34.375em) {
+    .sitename {
+      font-size: 2.625em; } }
+  @media screen and (min-width: 50em) {
+    .sitename {
+      font-size: 3.75em; } }
