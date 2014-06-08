@@ -1,0 +1,1 @@
+$(document).ready(function(){console.log("works");$(".bingo_grid li").click(function(){$("#holder").fadeOut(100);var e=$(".bingo_grid").width();if(e<550){var t=$(this).clone();$("#holder").fadeIn(300);$("#holder li").remove();$("#holder").append(t)}});$(".close_box").click(function(){$("#holder").fadeOut(100)})});

@@ -10,8 +10,8 @@ import traceback
 import twitter
 
 class UserCard:
-	def __init__(self,user_id):
-		self.user_id = user_id
+	def __init__(self,user):
+		self.user = user
 		self.tiles = []
 		self.goals = {}
 		self.refreshFromDB()
@@ -26,15 +26,17 @@ class UserCard:
 			JOIN goals USING(goal_id)
 			LEFT JOIN daub_tweets USING(daub_tweet_id)
 			WHERE ucs.user_id = %s
-			ORDER BY position ASC""",(self.user_id,))
+			ORDER BY position ASC""",(self.user['id'],))
 		self.tiles=list(mysql_cur.fetchall())
-		self.goals = {t['hashtag']:t for t in self.tiles}
+		self.goals = {t['hashtag'].lower():t for t in self.tiles}
 
 	def createCard(self):
 		mysql_cur.execute("SELECT goal_id FROM goals")
 		tile_goals = random.sample(mysql_cur.fetchall(),24)
-		insert_squares = [(self.user_id,tile_goals[i]['goal_id'],i) for i in xrange(24)]
+		insert_squares = [(self.user['id'],tile_goals[i]['goal_id'],i) for i in xrange(24)]
 		mysql_cur.executemany("INSERT INTO user_card_squares (user_id,goal_id,position) VALUES (%s,%s,%s)",insert_squares)
+		mysql_cur.execute("INSERT INTO users (user_id,screen_name,profile_image_url) VALUES (%s,%s,%s)",
+			(self.user['id'],self.user['screen_name'],self.user['profile_image_url']))
 		self.refreshFromDB()
 
 	def hasGoal(self,goal):
@@ -42,8 +44,8 @@ class UserCard:
 
 	def findHashtag(self,hashtags):
 		for h in hashtags:
-			if self.hasGoal(h):
-				return h
+			if self.hasGoal(h.lower()):
+				return h.lower()
 		return None
 
 	def goalDaubed(self,goal):
@@ -63,71 +65,80 @@ class UserCard:
 				[0,6,17,23],
 				[4,8,15,19]]
 
+	def daubsLeft(self):
+		daubs_left=4
+		for line in self.getBingoLines():
+			daubs_left = min(daubs_left,len([True for tile in line if self.tiles[tile]['daub_tweet_id'] is None]))
+		return daubs_left
+
+
 	def hasBingo(self):
 		if not self.hasCard():
 			return False
-		for line in self.getBingoLines():
-			if len([True for tile in line if self.tiles[tile]['daub_tweet_id'] is None]) == 0:
-				return True
-		return False
+		return self.daubsLeft()==0
+
+	def totalDaubs(self):
+		return len([True for tile in self.tiles if tile['daub_tweet_id'] is not None])
 
 	def hasBlackout(self):
 		if not self.hasCard():
 			return False
-		return (len([True for tile in self.tiles if tile['daub_tweet_id'] is None]) == 0)
+		return self.totalDaubs() == 24
 	
 	def markSquare(self,hashtag,tweet):
 		if not self.hasCard():
 			return
-		daub_tweet = (tweet.getID(),tweet.getUserID(),self.goals[hashtag]['goal_id'],tweet.getCreatedAt(),tweet.getEmbedCode(),tweet.getPic())
-		mysql_cur.execute("INSERT INTO daub_tweets (daub_tweet_id,user_id,goal_id,created_at,embed_code,image_url) VALUES (%s,%s,%s,%s,%s,%s)",daub_tweet)
+		daub_tweet = (tweet.getID(),tweet.getUser()['id'],self.goals[hashtag]['goal_id'],tweet.getCreatedAt(),tweet.getPic())
+		mysql_cur.execute("INSERT INTO daub_tweets (daub_tweet_id,user_id,goal_id,created_at,image_url) VALUES (%s,%s,%s,%s,%s)",daub_tweet)
 		mysql_cur.execute("UPDATE user_card_squares SET daub_tweet_id = %s WHERE user_card_square_id = %s",(tweet.getID(),self.goals[hashtag]['user_card_square_id']))
 		self.refreshFromDB()
+		mysql_cur.execute("UPDATE users SET daubs_left=%s,total_daubs=%s WHERE user_id = %s",(self.daubsLeft(),self.totalDaubs(),self.user['id']))
 
 	def suggestions(self):
 		return None
 
 	def renderCard(self):
-		tilehtml = []
-		for t in self.tiles:
-			if t['daub_tweet_id'] is None:
-				tilehtml.append('#%s'%t['hashtag'])
-			else:
-				tilehtml.append('<img src="%s"/>'%t['image_url'])
-		tilehtml = tuple(tilehtml)
-		with open("foo.html","wb") as fh:
-			fh.write("""<html><head>
-							<style>
-							* {
-								margin:0;
-								border:0;
-								padding:0;
-								background:white;
-							}
-							table {
-								border:1px solid black;
-							}
-							td {
-								width:150px;
-								height:150px;
-								max-width:150px;
-								max-height:150px;
-								border:1px solid black;
-								text-align: center;
-							}
-							img {
-								max-height:100%%;
-								max-width:100%%;
-							}
-							</style>
-						</head><body><table>
-						<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>
-						<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>
-						<tr><td>%s</td><td>%s</td><td>FREE</td><td>%s</td><td>%s</td></tr>
-						<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>
-						<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>
-						</table></body></html>""" % tilehtml)
-		subprocess.call(["phantomjs", "rasterize.js", "foo.html", "foo.png", "750px*750px"])
+		# tilehtml = []
+		# for t in self.tiles:
+		# 	if t['daub_tweet_id'] is None:
+		# 		tilehtml.append('#%s'%t['hashtag'])
+		# 	else:
+		# 		tilehtml.append('<img src="%s"/>'%t['image_url'])
+		# tilehtml = tuple(tilehtml)
+		# with open("foo.html","wb") as fh:
+		# 	fh.write("""<html><head>
+		# 					<style>
+		# 					* {
+		# 						margin:0;
+		# 						border:0;
+		# 						padding:0;
+		# 						background:white;
+		# 					}
+		# 					table {
+		# 						border:1px solid black;
+		# 					}
+		# 					td {
+		# 						width:150px;
+		# 						height:150px;
+		# 						max-width:150px;
+		# 						max-height:150px;
+		# 						border:1px solid black;
+		# 						text-align: center;
+		# 					}
+		# 					img {
+		# 						max-height:100%%;
+		# 						max-width:100%%;
+		# 					}
+		# 					</style>
+		# 				</head><body><table>
+		# 				<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>
+		# 				<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>
+		# 				<tr><td>%s</td><td>%s</td><td>FREE</td><td>%s</td><td>%s</td></tr>
+		# 				<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>
+		# 				<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>
+		# 				</table></body></html>""" % tilehtml)
+		# subprocess.call(["phantomjs", "rasterize.js", "foo.html", "foo.png", "750px*750px"])
+		subprocess.call(["phantomjs", "rasterize.js", "http://localhost:5000/card/"+self.user['screen_name'], "foo.png", "750px*750px"])
 		with open("foo.png") as fh:
 			img_data = fh.read()
 		return img_data
@@ -139,7 +150,7 @@ class InputTweet:
 			return # ignore
 		if not self.mentionsUs():
 			return # ignore
-		self.user_card = UserCard(self.getUserID())
+		self.user_card = UserCard(self.getUser())
 		tagged_goal = self.user_card.findHashtag(self.getHashtags())
 		if not self.user_card.hasCard():
 			if self.isDirectlyAtUs():
@@ -196,8 +207,8 @@ class InputTweet:
 	def getID(self):
 		return self.t['id']
 
-	def getUserID(self):
-		return self.t['user']['id']
+	def getUser(self):
+		return self.t['user']
 
 	def getScreenName(self):
 		return self.t['user']['screen_name']
@@ -216,8 +227,8 @@ class InputTweet:
 		else:
 			return None
 
-	def getEmbedCode(self):
-		return twit.statuses.oembed(_id = self.t['id'])['html']
+	# def getEmbedCode(self):
+	# 	return twit.statuses.oembed(_id = self.t['id'])['html']
 
 	def getHashtags(self):
 		return [h['text'].lower() for h in t['entities']['hashtags']]

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Untitled</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"> 
+
+	<meta charset="utf-8" />
+	<meta name="generator" content="BBEdit 10.5" />
+
+	<link href="/static/css/bingo.css" rel="stylesheet" type="text/css">
+	<link href='http://fonts.googleapis.com/css?family=Lato:400,700,900' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Asset' rel='stylesheet' type='text/css'>	
+	
+</head>
+<body>
+
+
+
+
+<div class="bingo_outer">
+<div class="bingo_container">
+<ul class="bingo_headline">
+	<li>B</li>
+	<li>I</li>
+	<li>N</li>
+	<li>G</li>
+	<li>O</li>
+
+
+</ul>
+<ul class="bingo_grid">
+{% for square in squares %}
+	<li>
+		{% if square['free'] is undefined %}
+			{% if square['image_url'] is none %}
+				<p class="bingo_tag">{{square['flavor_text']}}</p>
+			{% else %}
+				<img src="{{square['image_url']}}" class="bingo_image" />
+			{% endif %}
+			<p class="hashtag">{{square['hashtag']}}</p>
+		{% endif %}
+	</li>
+{% endfor %}
+
+<p class="clearfix"></p>
+
+<ul id="holder">
+
+<p class="close_box"><i>&#xf00d;</i></p>
+
+
+</ul>
+
+
+</ul>
+
+
+</div>
+</div>
+
+</body>
+
+<script src="/static/scripts/jquery-1.9.1.min-ck.js"></script>
+<script src="/static/scripts/script.js"></script>
+
+</html>
