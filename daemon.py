@@ -182,7 +182,7 @@ class InputTweet:
 					self.sendReply("You filled your card! What a champion.")
 					self.sendPublic("Wow! @%s just filled their bingo card!",(self.getScreenName(),tagged_goal))
 				else:
-					if goal_story is not None:
+					if goal_story is not None and len(goal_story) > 0:
 						self.sendReply("Nice #%s! Check this out: %s"%(tagged_goal,goal_story))
 					else:
 						self.sendReply("Nice #%s! "%tagged_goal)
@@ -190,7 +190,7 @@ class InputTweet:
 				self.sendReply("Congratulations, that's Bingo! You're welcome to keep going...")
 				self.sendPublic("BINGO! @%s just spotted #%s to win bingo."(self.getScreenName(),tagged_goal))
 			else:
-				if goal_story is not None:
+				if goal_story is not None and len(goal_story) > 0:
 					self.sendReply("Nice #%s! Check this out: %s"%(tagged_goal,goal_story))
 				else:
 					self.sendReply("Nice #%s! "%tagged_goal)
@@ -246,7 +246,7 @@ class InputTweet:
 
 	def sendReply(self,message):
 		img_data = self.user_card.renderCard()
-		status = ("@%s %s Your card: http://mbtabingo.com/card/%s " % (self.getScreenName(),message,self.getScreenName())).encode('ascii','ignore')
+		status = ("@%s %s Your card: http://bingo.danielmclaughl.in:5000/card/%s " % (self.getScreenName(),message,self.getScreenName())).encode('ascii','ignore')
 		status = status.encode('ascii','ignore')
 		id_str = self.t['id_str'].encode('ascii','ignore')
 		print status, id_str
