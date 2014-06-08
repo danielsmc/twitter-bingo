@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 import json
 import MySQLdb
 import MySQLdb.cursors
@@ -26,7 +26,7 @@ mysql_cur.execute("SET time_zone='+0:00'")
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    return redirect('/leaderboard')
 
 @app.route('/card/<screen_name>')
 def card(screen_name):
