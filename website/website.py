@@ -5,7 +5,7 @@ import MySQLdb.cursors
 
 app = Flask(__name__)
 
-# app.debug = True
+app.debug = True
 
 with open('../config.json') as fh:
 	config = json.load(fh)
@@ -44,11 +44,11 @@ def card(screen_name):
 			ORDER BY position ASC""",(user_id,))
 	squares=list(mysql_cur.fetchall())
 	squares.insert(12,{"free":"woot"})
-	return render_template('card.html', squares=squares)
+	return render_template('card.html', squares=squares,screen_name=screen_name)
 
 @app.route('/leaderboard')
 def leaderboard():
-	mysql_cur.execute("""SELECT screen_name, daubs_left, hashtag, image_url from daub_tweets
+	mysql_cur.execute("""SELECT screen_name, daubs_left, hashtag, image_url, profile_image_url from daub_tweets
 		join users using(user_id) join goals using(goal_id) order by created_at desc limit 10""")
 	recents = list(mysql_cur.fetchall())
 	mysql_cur.execute("""SELECT screen_name, profile_image_url, daubs_left from users order by daubs_left asc limit 5""")

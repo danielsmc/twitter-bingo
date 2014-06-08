@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Untitled</title>
+	<title>Leaderboard - MBTA Bingo</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"> 
 
 	<meta charset="utf-8" />
@@ -45,7 +45,13 @@
 			
 			<div class="user_info">
 				<h3 class="user_name"><a href="/card/{{leader['screen_name']}}">@{{leader['screen_name']}}</a></h3>
-				<p class="bingo_status">{{leader['daubs_left']}} squares from Bingo</p>
+				<p class="bingo_status">
+				{% if leader['daubs_left'] == 0 %}
+					Bingo!
+				{% else %}
+					{{leader['daubs_left']}} squares from Bingo
+				{% endif %}
+				</p>
 				<!-- <p class="last_hashtag">last hashtag</p>	 -->
 			</div>
 		</li>
@@ -70,15 +76,21 @@
 			
 			<div class="user_avatar">
 			<!-- links to their card -->
-				<a href="">
-				<img src="">
+				<a href="/card/{{recent['screen_name']}}">
+				<img src="{{recent['profile_image_url']}}">
 				</a>
 			</div>
 			
 			<div class="user_info">
 			<!-- links to their card -->
 				<h3 class="user_name"><a href="/card/{{recent['screen_name']}}">@{{recent['screen_name']}}</a></h3>
-				<p class="bingo_status">{{recent['daubs_left']}} squares from Bingo</p>
+				<p class="bingo_status">
+				{% if recent['daubs_left'] == 0 %}
+					Bingo!
+				{% else %}
+					{{recent['daubs_left']}} squares from Bingo
+				{% endif %}
+				</p>
 				<p class="last_hashtag">{{recent['hashtag']}}</p>	
 			</div>
 			

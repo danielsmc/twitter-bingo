@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Untitled</title>
+	<title>@{{screen_name}}'s card - MBTA Bingo</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"> 
 
 	<meta charset="utf-8" />
@@ -60,7 +60,7 @@
 </ul>
 <ul class="bingo_grid">
 {% for square in squares %}
-	<li>
+	<li class="{% if square['image_url'] is not none %}active{% endif %}">
 		{% if square['free'] is undefined %}
 			{% if square['image_url'] is none %}
 				<p class="bingo_tag">{{square['flavor_text']}}</p>
