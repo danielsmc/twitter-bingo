@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Untitled</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"> 
+
+	<meta charset="utf-8" />
+	<meta name="generator" content="BBEdit 10.5" />
+
+	<link href="/static/css/bingo.css" rel="stylesheet" type="text/css">
+	<link href='http://fonts.googleapis.com/css?family=Lato:400,700,900' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Asset' rel='stylesheet' type='text/css'>	
+	
+</head>
+<body>
+
+
+
+<div class="main">
+
+	<div class="left_side">
+	
+	<h2>leaderboard</h2>
+		
+		<ul class="leaderboard">
+		{% for leader in leaders %}
+		<li>
+			<!-- <div class="rank">000 </div> -->
+			<div class="user_avatar">
+			<!-- links to their card  -->
+				<a href=""><img src=""></a>
+			</div>
+			
+			<div class="user_info">
+				<h3 class="user_name"><a href="/card/{{leader['screen_name']}}">@{{leader['screen_name']}}</a></h3>
+				<p class="bingo_status">{{leader['daubs_left']}} squares from Bingo</p>
+				<!-- <p class="last_hashtag">last hashtag</p>	 -->
+			</div>
+		</li>
+		{% endfor %}
+
+		</ul>
+	
+	
+	</div>
+	
+	
+	<div class="right_side">
+	
+		<h2>recent submissions</h2>
+		
+		<ul class="latest_items">
+		{% for recent in recents %}
+			<li>
+				<div class="tweeted_image">			
+				<img src="{{recent['image_url']}}">	
+				</div>
+			
+			<div class="user_avatar">
+			<!-- links to their card -->
+				<a href="">
+				<img src="">
+				</a>
+			</div>
+			
+			<div class="user_info">
+			<!-- links to their card -->
+				<h3 class="user_name"><a href="/card/{{recent['screen_name']}}">@{{recent['screen_name']}}</a></h3>
+				<p class="bingo_status">{{recent['daubs_left']}} squares from Bingo</p>
+				<p class="last_hashtag">{{recent['hashtag']}}</p>	
+			</div>
+			
+			</li>
+		{% endfor %}
+		</ul>
+		
+	
+	</div>
+
+
+</div>
+
+</body>
+
+<script src="/static/scripts/jquery-1.9.1.min-ck.js"></script>
+<script src="/static/scripts/script.js"></script>
+
+</html>

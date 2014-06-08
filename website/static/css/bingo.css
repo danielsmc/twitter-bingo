@@ -64,7 +64,7 @@ ul li {
   z-index: 1000;
   padding: 0;
   display: none;
-  top: 15%;
+  top: 30%;
   left: 0;
   right: 0;
   background-image: url("../siteart/lightpaperfibers_@2X.png");
@@ -113,8 +113,11 @@ ul li {
       right: 0;
       padding: 5px 20px;
       text-align: center;
-      font-size: 1.375em;
+      font-size: 1.125em;
       display: block; }
+      @media screen and (min-width: 31.25em) {
+        #holder li .bingo_tag {
+          font-size: 1.375em; } }
     #holder li .hashtag {
       display: block;
       font-weight: 700;
@@ -190,9 +193,12 @@ ul li {
   background-size: 300px 500px;
   border-radius: 4px;
   background-color: rgba(255, 99, 71, 0.5);
-  padding: 20px;
+  padding: 10px;
   box-shadow: 2px 2px 3px #d0d0d0;
   border: 1px solid white; }
+  @media screen and (min-width: 43.75em) {
+    .bingo_outer {
+      padding: 20px; } }
 
 .bingo_container {
   width: auto;
@@ -215,16 +221,19 @@ ul li {
   border-left: 1px solid beigh;
   border-bottom: 1px solid tan;
   border-right: 1px solid tan;
-  padding: 15px;
+  padding: 8px;
   background-color: rgba(255, 99, 71, 0.8); }
+  @media screen and (min-width: 43.75em) {
+    .bingo_grid {
+      padding: 15px; } }
   .bingo_grid li {
-    width: 19.2%;
-    margin-right: 1%;
+    width: 19.7%;
+    margin-right: 0.375%;
     box-sizing: border-box;
     float: left;
     padding-bottom: 20%;
     position: relative;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
     position: relative;
     overflow: hidden;
     display: table-cell;
@@ -241,7 +250,11 @@ ul li {
         background-image: none, url("../siteart/lightpaperfibers_@2X.png"); } }
     @media screen and (min-width: 43.75em) {
       .bingo_grid li {
-        font-size: 1em; } }
+        font-size: 1em;
+        width: 19.2%;
+        margin-right: 1%;
+        box-sizing: border-box;
+        margin-bottom: 5px; } }
     .bingo_grid li:nth-child(5n) {
       margin-right: 0px; }
     .bingo_grid li:nth-child(13) {
@@ -475,8 +488,11 @@ leaderboard page
   text-align: center;
   border-radius: 3px;
   padding: 12px 0 0 0;
-  margin: 30px auto 30px;
+  margin: 15px auto 15px;
   cursor: pointer; }
+  @media screen and (min-width: 37.5em) {
+    .instruct_button, .close_instruct_button {
+      margin: 30px auto 30px; } }
   .instruct_button:hover, .close_instruct_button:hover {
     background-color: #376d33; }
 
@@ -502,7 +518,7 @@ leaderboard page
   box-shadow: 3px 3px 4px #d0d0d0;
   max-width: 500px; }
   .instructions li {
-    margin: 0 0 20px 0; }
+    margin: 0 0 15px 0; }
     .instructions li .hider {
       display: inline; }
       @media screen and (min-width: 34.375em) {

@@ -46,6 +46,15 @@ def card(screen_name):
 	squares.insert(12,{"free":"woot"})
 	return render_template('card.html', squares=squares)
 
+@app.route('/leaderboard')
+def leaderboard():
+	mysql_cur.execute("""SELECT screen_name, daubs_left, hashtag, image_url from daub_tweets
+		join users using(user_id) join goals using(goal_id) order by created_at desc limit 10""")
+	recents = list(mysql_cur.fetchall())
+	mysql_cur.execute("""SELECT screen_name, profile_image_url, daubs_left from users order by daubs_left asc limit 5""")
+	leaders = list(mysql_cur.fetchall())
+	return render_template('leaderboard.html', recents=recents,leaders=leaders)
+
 
 if __name__ == '__main__':
     app.run()
