@@ -235,7 +235,7 @@ class InputTweet:
 
 	def sendReply(self,message):
 		img_data = self.user_card.renderCard()
-		status = ("@%s %s Your card: http://107.170.82.222:5000/card/%s " % (self.getScreenName(),message,self.getScreenName())).encode('ascii','ignore')
+		status = ("@%s %s Your card: http://bingo.danielmclaughl.in:5000/card/%s " % (self.getScreenName(),message,self.getScreenName())).encode('ascii','ignore')
 		status = status.encode('ascii','ignore')
 		id_str = self.t['id_str'].encode('ascii','ignore')
 		print status, id_str
