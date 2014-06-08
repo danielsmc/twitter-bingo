@@ -1,12 +1,16 @@
 $(document) .ready (function()
 	{
-	
-	
-	console.log('works');
+
+
+		if(document.location.search==="?fortwitter") {
+		$(".instruct_button").hide()
+		$(".leaderboard_link").hide()
+		};
 	
 
 	$('.bingo_grid li') .click (function ()
-	{	
+	{
+	console.log('click');
 	$('#holder') .fadeOut (100);
 	var width = $('.bingo_grid') .width ();	
 	if (width < 550)
