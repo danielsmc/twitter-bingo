@@ -1,0 +1,16 @@
+{
+	"mysql" : {
+		"host": "",
+		"port": 3306,
+		"user": "",
+		"password": "",
+		"database": ""
+	},
+	"twitter" : {
+		"screen_name": "",
+		"consumer_key": "",
+		"consumer_secret": "",
+		"access_token": "",
+		"access_token_secret": ""
+	}
+}
