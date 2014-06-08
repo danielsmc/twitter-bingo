@@ -58,7 +58,6 @@ ul li {
   padding: 0px; }
 
 #holder {
-  border: 1px solid black;
   position: absolute;
   width: 60%;
   margin: 0 auto;
@@ -71,7 +70,8 @@ ul li {
   background-image: url("../siteart/lightpaperfibers_@2X.png");
   background-size: 300px 500px;
   box-shadow: 3px 3px 3px #999;
-  border: 1px solid white; }
+  border: 1px solid white;
+  border-radius: 3px; }
   #holder .close_box {
     position: absolute;
     right: 10px;
@@ -91,7 +91,8 @@ ul li {
     width: 100%;
     position: relative;
     padding: 0 0 100% 0;
-    background-image: none; }
+    background-image: none;
+    border: 0px; }
     #holder li .bingo_image {
       width: 100%;
       height: auto;
@@ -110,7 +111,7 @@ ul li {
       top: 25%;
       left: 0;
       right: 0;
-      padding: 0px 20px;
+      padding: 5px 20px;
       text-align: center;
       font-size: 1.375em;
       display: block; }
@@ -147,7 +148,10 @@ ul li {
   background-color: rgba(255, 99, 71, 0.5);
   font-weight: 100;
   padding: 0;
-  font-size: 0.875em; }
+  font-size: 0.5em; }
+  @media screen and (min-width: 25em) {
+    .bingo_headline {
+      font-size: 0.8125em; } }
   @media screen and (min-width: 37.5em) {
     .bingo_headline {
       font-size: 1em; } }
@@ -165,14 +169,23 @@ ul li {
     text-align: center;
     line-height: 100%;
     color: white;
-    text-shadow: 1px 1px 0 #d7533c, 2px 2px 0 #d7533c, 3px 3px 0 #d7533c, 4px 4px 0 #d7533c; }
+    text-shadow: 1px 1px 0 #d7533c, 2px 2px 0 #d7533c; }
+    @media screen and (min-width: 31.25em) {
+      .bingo_headline li {
+        text-shadow: 1px 1px 0 #d7533c, 2px 2px 0 #d7533c, 3px 3px 0 #d7533c, 4px 4px 0 #d7533c; } }
+
+.leaderboard_link {
+  font-size: 0.875em;
+  font-weight: 700;
+  color: #666;
+  text-align: center; }
 
 .bingo_outer {
   width: 100%;
   margin-right: 0%;
   box-sizing: border-box;
   max-width: 800px;
-  margin: 0 auto;
+  margin: 0 auto 50px;
   background-image: url("../siteart/lightpaperfibers_@2X.png");
   background-size: 300px 500px;
   border-radius: 4px;
@@ -243,8 +256,7 @@ ul li {
       text-shadow: 0 0 3px black; }
 
 .bingo_image {
-  width: auto;
-  height: 100%;
+  width: 100%;
   position: absolute;
   margin: auto;
   top: 0;
@@ -252,6 +264,9 @@ ul li {
   left: -50%;
   right: -50%;
   padding: 0px; }
+  @media screen and (min-width: 43.75em) {
+    .bingo_image {
+      min-width: 140px; } }
 
 .bingo_tag {
   width: 100%;

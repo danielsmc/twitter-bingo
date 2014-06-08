@@ -175,7 +175,7 @@ class InputTweet:
 			if had_bingo:
 				if self.user_card.hasBlackout():
 					self.sendReply("You filled your card! What a champion.")
-					self.sendPublic("Wow! @%s just filled their bingo card!"(self.getScreenName(),tagged_goal))
+					self.sendPublic("Wow! @%s just filled their bingo card!",(self.getScreenName(),tagged_goal))
 				else:
 					self.sendReply("Nice #%s! Why not try these suggestions TK?"%tagged_goal)
 			elif self.user_card.hasBingo():
