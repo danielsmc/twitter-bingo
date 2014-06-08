@@ -152,6 +152,11 @@ class InputTweet:
 			return # ignore
 		self.user_card = UserCard(self.getUser())
 		tagged_goal = self.user_card.findHashtag(self.getHashtags())
+		goal_story = None
+		if tagged_goal is not None:
+			mysql_cur.execute("select url from goals where hashtag = %s",(tagged_goal,))
+			for row in mysql_cur:
+				goal_story = row['url']
 		if not self.user_card.hasCard():
 			if self.isDirectlyAtUs():
 				self.user_card.createCard()
@@ -177,12 +182,18 @@ class InputTweet:
 					self.sendReply("You filled your card! What a champion.")
 					self.sendPublic("Wow! @%s just filled their bingo card!",(self.getScreenName(),tagged_goal))
 				else:
-					self.sendReply("Nice #%s! Why not try these suggestions TK?"%tagged_goal)
+					if goal_story is not None:
+						self.sendReply("Nice #%s! Check this out: %s"%(tagged_goal,goal_story))
+					else:
+						self.sendReply("Nice #%s! "%tagged_goal)
 			elif self.user_card.hasBingo():
 				self.sendReply("Congratulations, that's Bingo! You're welcome to keep going...")
 				self.sendPublic("BINGO! @%s just spotted #%s to win bingo."(self.getScreenName(),tagged_goal))
 			else:
-				self.sendReply("Nice #%s! Why not try these suggestions TK?"%tagged_goal)
+				if goal_story is not None:
+					self.sendReply("Nice #%s! Check this out: %s"%(tagged_goal,goal_story))
+				else:
+					self.sendReply("Nice #%s! "%tagged_goal)
 
 	def isRetweet(self):
 		if 'retweeted_status' in t:
