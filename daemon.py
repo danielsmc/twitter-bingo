@@ -288,6 +288,7 @@ def doTweet(tweet):
 	print tweet
 	if "text" in tweet:
 		try:
+			mysql_conn.ping(True)
 			InputTweet(tweet)
 		except (KeyboardInterrupt, SystemExit):
 			raise
