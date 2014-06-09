@@ -30,6 +30,7 @@ def hello_world():
 
 @app.route('/card/<screen_name>')
 def card(screen_name):
+	mysql_conn.ping(True)
 	user_id = None
 	mysql_cur.execute("SELECT user_id FROM users WHERE screen_name = %s",(screen_name,))
 	for row in mysql_cur:
@@ -48,6 +49,7 @@ def card(screen_name):
 
 @app.route('/leaderboard')
 def leaderboard():
+	mysql_conn.ping(True)
 	mysql_cur.execute("""SELECT screen_name, daubs_left, hashtag, image_url, profile_image_url from daub_tweets
 		join users using(user_id) join goals using(goal_id) order by created_at desc limit 10""")
 	recents = list(mysql_cur.fetchall())
