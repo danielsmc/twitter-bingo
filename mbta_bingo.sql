@@ -1,16 +1,3 @@
-# ************************************************************
-# Sequel Pro SQL dump
-# Version 4096
-#
-# http://www.sequelpro.com/
-# http://code.google.com/p/sequel-pro/
-#
-# Host: localhost (MySQL 5.6.19)
-# Database: mbta_bingo
-# Generation Time: 2014-06-06 20:10:13 +0000
-# ************************************************************
-
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -30,7 +17,7 @@ CREATE TABLE `daub_tweets` (
   `user_id` bigint(20) NOT NULL,
   `goal_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
-  `embed_code` text NOT NULL,
+  `embed_code` text,
   `image_url` text NOT NULL,
   PRIMARY KEY (`daub_tweet_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -82,6 +69,8 @@ CREATE TABLE `users` (
   `user_id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,
   `screen_name` varchar(255) DEFAULT NULL,
   `profile_image_url` text,
+  `daubs_left` int(11) NOT NULL DEFAULT '4',
+  `total_daubs` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
